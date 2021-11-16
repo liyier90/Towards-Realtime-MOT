@@ -1,18 +1,19 @@
+import argparse
+import logging
 import os
 import os.path as osp
-import cv2
-import logging
-import argparse
-import motmetrics as mm
 
+import cv2
+import motmetrics as mm
 import torch
+
+import utils.datasets as datasets
 from tracker.multitracker import JDETracker
 from utils import visualization as vis
-from utils.log import logger
-from utils.timer import Timer
 from utils.evaluation import Evaluator
+from utils.log import logger
 from utils.parse_config import parse_model_cfg
-import utils.datasets as datasets
+from utils.timer import Timer
 from utils.utils import *
 
 
@@ -186,15 +187,15 @@ if __name__ == '__main__':
     print(opt, end='\n\n')
  
     if not opt.test_mot16:
-        seqs_str = '''MOT17-02-SDP
-                      MOT17-04-SDP
-                      MOT17-05-SDP
-                      MOT17-09-SDP
-                      MOT17-10-SDP
-                      MOT17-11-SDP
-                      MOT17-13-SDP
+        seqs_str = '''MOT16-02
+                      MOT16-04
+                      MOT16-05
+                      MOT16-09
+                      MOT16-10
+                      MOT16-11
+                      MOT16-13
                     '''
-        data_root = '/home/wangzd/datasets/MOT/MOT17/images/train'
+        data_root = 'MOT16/train'
     else:
         seqs_str = '''MOT16-01
                      MOT16-03
