@@ -1,0 +1,23 @@
+weights_dir: "weights"
+model_files:
+  {
+    576x320: jde_576x320_uncertainty.pt,
+    865x480: jde_865x480_uncertainty.pt,
+    1088x608: jde_1088x608_uncertainty.pt,
+  }
+
+config_files:
+  {
+    576x320: yolov3_576x320.cfg,
+    865x480: yolov3_865x480.cfg,
+    1088x608: yolov3_1088x608.cfg,
+  }
+
+model_type: 576x320
+iou_threshold: 0.5
+nms_threshold: 0.4
+score_threshold: 0.5
+
+min_box_area: 200
+track_buffer: 30
+output_format: video
