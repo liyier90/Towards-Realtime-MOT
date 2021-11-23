@@ -1,5 +1,6 @@
-import numpy as np
 from collections import OrderedDict
+
+import numpy as np
 
 
 class TrackState(object):
@@ -50,4 +51,3 @@ class BaseTrack(object):
 
     def mark_removed(self):
         self.state = TrackState.Removed
-

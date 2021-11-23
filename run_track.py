@@ -1,8 +1,8 @@
 """Run demo script with config loading similar to PKD."""
 
+import logging
 import time
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any, Dict, List
 
 import cv2
@@ -12,6 +12,7 @@ import yaml
 
 from tracker.multitracker import JDETracker
 from utils import visualization as vis
+from utils.log import logger
 
 
 def parse_model_config(config_path: Path) -> List[Dict[str, Any]]:
@@ -83,13 +84,12 @@ def main(opt):
     )
     opt["input_size"] = [int(model_cfg[0]["width"]), int(model_cfg[0]["height"])]
 
-    opt_compat = SimpleNamespace(**opt)
-    opt_compat.cfg = str(opt["weights_dir"] / opt["config_files"][opt["model_type"]])
-    opt_compat.weights = opt["weights_dir"] / opt["model_files"][opt["model_type"]]
-    opt_compat.conf_thres = opt["score_threshold"]
-    opt_compat.nms_thres = opt["nms_threshold"]
-    opt_compat.img_size = opt["input_size"]
-    tracker = JDETracker(opt_compat)
+    opt["cfg"] = str(opt["weights_dir"] / opt["config_files"][opt["model_type"]])
+    opt["weights"] = opt["weights_dir"] / opt["model_files"][opt["model_type"]]
+    opt["conf_thres"] = opt["score_threshold"]
+    opt["nms_thres"] = opt["nms_threshold"]
+    opt["img_size"] = opt["input_size"]
+    tracker = JDETracker(opt)
 
     cap = cv2.VideoCapture(str(opt["input_dir"]))
     ret, frame0 = cap.read()
@@ -131,6 +131,7 @@ def main(opt):
 
 
 if __name__ == "__main__":
+    logger.setLevel(logging.INFO)
     root_dir = Path.cwd()
     with open(root_dir / "jde_config.yml") as config_file:
         config = yaml.safe_load(config_file.read())
