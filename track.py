@@ -212,9 +212,11 @@ def main(
     metrics = mm.metrics.motchallenge_metrics
     mh = mm.metrics.create()
     summary = Evaluator.get_summary(accs, seqs, metrics)
+    summary.to_csv(os.path.join(result_root, "eval.csv"))
     strsummary = mm.io.render_summary(
         summary, formatters=mh.formatters, namemap=mm.io.motchallenge_metric_names
     )
+    print(strsummary)
 
 
 if __name__ == "__main__":
