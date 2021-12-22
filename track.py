@@ -96,7 +96,7 @@ def eval_seq(
     frame_id = 0
     # img is resized, imo0 is original size
     for path, img, img0 in dataloader:
-        if frame_id % 20 == 0:
+        if frame_id % 60 == 0:
             logger.info(
                 "Processing frame {} ({:.2f} fps)".format(
                     frame_id, 1.0 / max(1e-5, timer.average_time)
