@@ -5,10 +5,12 @@ from typing import List
 import numpy as np
 import torch
 
+# from utils.log import logger
+from loguru import logger
+
 from models import Darknet
 from tracker import matching
 from utils.kalman_filter import KalmanFilter
-from utils.log import logger
 from utils.utils import non_max_suppression, scale_coords
 
 from .basetrack import BaseTrack, TrackState
@@ -247,7 +249,7 @@ class JDETracker:
             detections = []
 
         t2 = time.perf_counter()
-        print(f"Forward: {t2 - t1} s")
+        logger.debug(f"Forward: {t2 - t1} s")
 
         # Add newly detected tracklets to tracked_stracks
         unconfirmed = []
@@ -384,11 +386,11 @@ class JDETracker:
         # get scores of lost tracks
         output_stracks = [track for track in self.tracked_stracks if track.is_activated]
 
-        logger.debug(f"===========Frame {self.frame_id}==========")
-        logger.debug(f"Activated: {[track.track_id for track in activated_stracks]}")
-        logger.debug(f"Refind: {[track.track_id for track in refind_stracks]}")
-        logger.debug(f"Lost: {[track.track_id for track in lost_stracks]}")
-        logger.debug(f"Removed: {[track.track_id for track in removed_stracks]}")
+        # logger.debug(f"===========Frame {self.frame_id}==========")
+        # logger.debug(f"Activated: {[track.track_id for track in activated_stracks]}")
+        # logger.debug(f"Refind: {[track.track_id for track in refind_stracks]}")
+        # logger.debug(f"Lost: {[track.track_id for track in lost_stracks]}")
+        # logger.debug(f"Removed: {[track.track_id for track in removed_stracks]}")
         # print(f"Final {t5-t4} s")
         return output_stracks
 

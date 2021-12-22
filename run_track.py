@@ -1,6 +1,6 @@
 """Run demo script with config loading similar to PKD."""
 
-import logging
+# import logging
 import time
 from pathlib import Path
 from typing import Any, Dict, List
@@ -9,10 +9,12 @@ import cv2
 import numpy as np
 import torch
 import yaml
+from loguru import logger
 
 from tracker.multitracker import JDETracker
 from utils import visualization as vis
-from utils.log import logger
+
+# from utils.log import logger
 
 
 def parse_model_config(config_path: Path) -> List[Dict[str, Any]]:
@@ -98,7 +100,7 @@ def main(opt):
     frame_id = 0
     while ret:
         if frame_id % 20 == 0:
-            print(f"Processing frame {frame_id}")
+            logger.info(f"Processing frame {frame_id}")
         # ==============================================================
         # Model
         # ==============================================================
@@ -131,7 +133,7 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    logger.setLevel(logging.INFO)
+    # logger.setLevel(logging.INFO)
     root_dir = Path.cwd()
     with open(root_dir / "jde_config.yml") as config_file:
         config = yaml.safe_load(config_file.read())

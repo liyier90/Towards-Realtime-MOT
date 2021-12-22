@@ -1,23 +1,27 @@
-def parse_model_cfg(path):
-    """Parses the yolo-v3 layer configuration file and returns module definitions"""
-    file = open(path, "r")
-    lines = file.read().split("\n")
-    lines = [x for x in lines if x and not x.startswith("#")]
-    lines = [x.rstrip().lstrip() for x in lines]  # get rid of fringe whitespaces
-    module_defs = []
+from pathlib import Path
+from typing import Any, Dict, List
+
+
+def parse_model_cfg(config_path: Path) -> List[Dict[str, Any]]:
+    """Parse model configuration with context manager"""
+    with open(config_path) as infile:
+        lines = [
+            line
+            for line in map(str.strip, infile.readlines())
+            if line and not line.startswith("#")
+        ]
+    module_defs: List[Dict[str, Any]] = []
     for line in lines:
-        if line.startswith("["):  # This marks the start of a new block
+        if line.startswith("["):
             module_defs.append({})
             module_defs[-1]["type"] = line[1:-1].rstrip()
             if module_defs[-1]["type"] == "convolutional":
                 module_defs[-1]["batch_normalize"] = 0
         else:
-            key, value = line.split("=")
-            value = value.strip()
-            if value[0] == "$":
+            key, value = tuple(map(str.strip, line.split("=")))
+            if value.startswith("$"):
                 value = module_defs[0].get(value.strip("$"), None)
-            module_defs[-1][key.rstrip()] = value
-
+            module_defs[-1][key] = value
     return module_defs
 
 
