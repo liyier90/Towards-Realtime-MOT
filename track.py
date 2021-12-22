@@ -269,7 +269,7 @@ if __name__ == "__main__":
                       MOT16-11
                       MOT16-13
                     """
-        data_root = "MOT16/train"
+        data_root = "/content/MOT16/train"
         # data_root = "/home/yier/Datasets/MOT16-short/train"
     else:
         seqs_str = """MOT16-01
